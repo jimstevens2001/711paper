@@ -1,0 +1,136 @@
+\section{Simulation Design}
+
+The basic design of our simulation is a discrete event simulation
+that models the arrivial, departure, and interactions of nodes in a
+BitTorrent swarm. The two main entities in the simulation are nodes
+and events. A node represents a single user in a BitTorrent swarm.
+An event object represents an action that occurs at a specific time.
+The file being shared in the swarm is represented simply by the total
+number of equal sized pieces and the size of each piece. Pieces are
+indexed starting at zero.
+
+Nodes are stored in a global nodes table to allow easy reference by
+any event handler or other node. This simulates the BitTorrent tracker
+for the swarm and is how nodes initially connect with each other. Each
+node contains the state specific to that node, such as the download
+progress, the subset of the overall nodes that the node has currently
+peered with (meaining it may trade pieces with that peer), and various
+other information. The node objects do not emulate everything that takes
+place in a normal BitTorrent node, but merely attempt to model at a
+level of detail great enough to understand how BitTorrent swarms spread
+a file. For example, the files are merely represented by dictionaries
+that represent the block sizes of the file, not the actual contents.
+Additionally, the low level details of BitTorrent connections, such
+as individual have and interest messages (and their timings), are not
+directly emulated, but rather emulated via data structures that can be
+accessed by the nodes when necessary.
+
+The full state of a node is as follows:
+
+\begin{itemize}
+\item Min/Max peers: The range of allowed peer connections.
+\item Desired peers: The number of peer connections to node tries to maintain.
+\item Peers table: The set of choked peers and the time the peering started.
+\item Unchoked: The set of up to five unchoked peers, which are the peers that are currently uploading to/downloading from the node.
+\item Interest: The set of peers that are interested in the current node's pieces, and the highest priority piece they want.
+\item Op\_unchoke: The peer that has been optimisically unchoked (and how long it has been optimistically unchoked).
+\item Max up/down: The node's upload and download capacity.
+\item Remain down: How much download capacity is left to allocate.
+\item Current up/down: The set of nodes that are currently transferring and the rate of transfer for each connection.
+\item Priority list: The list of pieces the node wants, sorted based on the priority to download (i.e. rarest first).
+\item Have pieces: The set of pieces the node currently has and when each piece completed.
+\item Want pieces: The set of pieces the node currently does not have and the download progress (starts at full piece size).
+\end{itemize}
+
+The node state is modified when event handlers execute.
+A global work queue is populated with events that are
+then sorted according to the schedule times. When events are removed,
+the event handler table dispatches the event object to the appropriate
+event handling function. Events are represented with lists in which the first
+item is the time the event occurs, the second item is the event type, and the remainder
+of the list is the event specific parameters for the event handlers (e.g. node IDs).
+An example event is [39, 'ADD\_NODE', 3], which represents node 3 joining the swarm at
+time 39.
+
+The following are valid events:
+
+\begin{itemize}
+\item ADD\_NODE
+\item REMOVE\_NODE
+\item EXCHANGE\_ROUND
+\item FINISH\_PIECE
+\item LOG
+\item KILL\_SIM
+\end{itemize}
+
+The ADD\_NODE event simulates a new node joining the swarm. The handler's
+parameters are a node ID and an optional have pieces set (which allows for
+seeds or nodes with partial completion to join the swarm). The handler
+then creates a new node object, places it in the global dictionary,
+and then calls the handler for exchange round (more on that below)
+to complete the node initialization.
+
+The REMOVE\_NODE event simulates a node departing from the swarm. The 
+only parameter is the node ID. The event handler for remove node must
+take care to remove all traces of the node in the simulation, including
+any scheduled events, peerings, interest dictionary entries, etc. The first
+thing the handler does is go through each event in the work queue and identify
+events that are associated with the node. Next, the remove\_peer() method is called
+for each node in the simulation. This method removes the node from the peers set,
+the unchoked set, the current up/down sets, and then recomputes the priority list (since
+the order of rarity among blocks may change). Another complication is that if the 
+departing node had partially uploaded a piece to a peer, the handler must compute
+how much of the file completed since this is normally handled by the FINISH\_PIECE event.
+
+The EXCHANGE\_ROUND event simulates the unchoking process that occurs every 10 seconds
+in a BitTorrent swarm. The handler takes the node ID as the parameter. The first thing the 
+handler does is make sure the node has enough
+peers. For example, if peers departed during the last round such that the number of peers
+dropped below the desired peers count, then more peers are generated by querying the tracker.
+Next, the rarest first algorithm runs based on the pieces held by the peers to generate the
+piece priority list. Next, based on the new priority list, the node updates its peers interest
+dictionary by finding the highest priority piece each peer has. This simulates both the interest
+messages and the request messages in a real BitTorrent swarm. 
+
+The unchoke algorithm then executes next. First, the unchoke algorithm takes the current down set
+(or the current up set if the node is a seeder) and sorts based on the speed of each connection.
+It will pick the top four of the up to five unchoked nodes to remain unchoked. If the optimistic
+unchoke node was selected as one of the top four or if the optimistic unchoke node has expired (which
+occurs after 30 seconds) or has become uninterested in current node's pieces, then a new optimistic 
+unchoke node must be selected. The optimistically unchoked node is selected randomly among the 
+choked peers. Due to the specification in \cite{bep003}, new peers (which we define as the three most
+recent peer connections) are 3 times more likely than other peers to be optimisically unchoked.
+
+After the unchoke algorithm completes, the piece uploads and downloads for the node are scheduled for the
+duration of the next round. This works by simply scheduling pieces based on the ability to fulfill the peer's
+requests (i.e. the node has a piece that the peer is interested in) in the current up/down sets until
+the available bandwidth is allocated. If a piece will finish before the next EXCHANGE\_ROUND event, then
+a FINISH\_PIECE event is scheduled. Last, the next EXCHANGE\_ROUND event is scheduled.
+
+The FINISH\_PIECE event simulates when a piece upload completes between peers and allows the next piece
+upload to commence. The parameters are the sending node, the receiving node, the piece ID, and 
+the time of the next scheduled EXCHANGE\_ROUND event for the sender. The handler then calls into the same
+functions that make up the EXCHANGE\_ROUND event and basically completes a mini-exchange round between
+the sender and receiver to pick the next piece to upload, updating the current up/down dictionary as needed.
+
+The LOG event is used to monitor the state of the simulation and collect results. LOG events can be schedule to run at any time.
+Each log event has a log\_type parameter and a set of additional parameters that depend on the log\_type. 
+
+Here is a subset of valid log\_types (full list omitted for brevity):
+
+\begin{itemize}
+\item time: logs the current time
+\item wq: print out the work queue, sorted by time
+\item nodes: print a list of all nodes
+\item peers: print out the peers for each node
+\item file\_progress: print out the have and want sets for each node
+\item interest\_dict: print the current interest dictionary for a node
+\item node\_state: print all state for a node
+\end{itemize}
+
+
+A simulation is initialized by filling the work queue with ADD\_NODE, REMOVE\_NODE, LOG, and KILL\_SIM events.
+Events are removed one at a time by the main event loop until the KILL\_SIM event occurs, which will print out the 
+final state of the work queue and then end the simulation.
+
+The complete implementation, written in Python, of our simulator can be found in our GitHub repository \cite{github}.
