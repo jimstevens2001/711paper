@@ -1,15 +1,15 @@
 \begin{abstract}
 The BitTorrent protocol is a popular peer-to-peer algorithm that is able to 
-transfer large files efficeintly over the internet. One of major
-downsides of this protocol is that the torrents are often only avaible
-for a relatively limited time. This is because often after a certain
-amount of time has elapsed there are no longer any nodes in the
-network who possess certain pieces of the file. This work
+transfer large files efficiently over the internet. One of major
+downsides of this protocol is that the torrents are often only available
+for a relatively limited time. This is because, after a certain
+amount of time has elapsed, there are no longer any nodes in the
+network that possess certain pieces of the file. This work
 investigates ways of extending the lifetime of a torrent by
-intellegently selecting which pieces to download first based on global
+intellegently selecting which peers to select and which pieces to download first based on global
 information regarding the rarest pieces in the network. To accomplish
-this global view of the swarm we propose the addition of gossip
-messages to the BitTorrent protocol which propegate information on the
+this global view of the swarm, we propose the addition of gossip
+messages to the BitTorrent protocol which propagate information on the
 rarest pieces. Our results show that this method is able to improve
 the piece selection of nodes thereby creating addtional copies of
 critically rare pieces. In addition, we also find several other

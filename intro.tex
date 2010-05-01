@@ -45,28 +45,26 @@ communicate information on the swarm via gossip to show that gossip could
 be used to reduce the occurrence of the last block problem significantly.
 
 
-In order to determine to what degree the problem exists we modified the
-Vuze to record the local view of nodes over time. This data was then
+In order to determine to what degree the problem exists we created a BitTorrent
+protocol simulator to record the local view of nodes over time. This data was then
 analyzed to compute the global view of rarest blocks. As we suspected,
 we found that the rarest block is not necessarily known throughout the
 entire torrent. Furthermore, the data showed that sometimes this lack
 of knowledge leads to inappropriate next block selection which causes
 important blocks to be lost. To address the inadequacy of the local view,
-we implemented a gossip protocol in Vuze to construct a global view of
+we implemented a gossip protocol to construct a global view of
 the swarm at each peer. For the purposes of this work, the global view
 only consists of a list of the globally rarest blocks. This reduced the
-amount of information that each peer had to store and update. However,
-creating an efficient gossip protocol that did not interfere with
-unmodified clients was still a major design challenge. The next block
-selection routine in Vuze was then modified to leverage the information
+amount of information that each peer had to store and update. The next block
+selection routine was then modified to leverage the information
 about the globally rarest blocks to request the blocks most in need
 of replication from its neighbors. The effectiveness of this approach
-was then verified by running a series of planet lab simulations that
+was then verified by running a series of simulations that
 approximated a range of swarms.
 
 
 The primary insight of this work is that the lack of a global view
-is a major contributing factor to the last block problem in transient
+is a contributing factor to the last block problem in transient
 swarms. We also observed that seeds, in addition to peers, have a high
 churn rate in real world swarms as users rarely continue to upload for
 very long after they complete the download. Thus, many more real world
@@ -86,9 +84,9 @@ costly to implement \cite{cohen:1}.
 
 
 The remainder of this paper is organized as follows. Section II discusses
-the background of the BitTorrent protocol. Section III describes related
-work in the last piece problem. Section IV is a study of when and how
-local knowledge does not reflect global state and its effect on incorrect
-next piece selection. Section V describes our gossip protocol. Section VI
-shows the experimental results of the gossip protocol in action. Section
-VII discusses future work and section VIII concludes the paper.
+the related work. Section III describes our simulation design.
+Section IV is a study of when and how
+local knowledge vs. global knowledge in BitTorrent nodes.
+Section V describes our gossip protocol. Section VI
+shows the experimental results of the gossip protocol in action. Section VII
+concludes the paper.
