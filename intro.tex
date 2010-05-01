@@ -20,7 +20,7 @@ is even worse for torrents with less popular data. A particularly
 common problem is that when a file is almost complete, the last
 few blocks are unavailable. Previous work has claimed that the
 rarest-first algorithm does good enough compared to more complex
-alternatives such as source coding [3]. However, the proliferation
+alternatives such as source coding \cite{legout:1}. However, the proliferation
 of requests for "re-seeding" on the Internet provide evidence that
 additional work may be necessary to reduce the last block problem. We
 are particularly interested in torrents that have lost their seeds,
@@ -46,7 +46,7 @@ be used to reduce the occurrence of the last block problem significantly.
 
 
 In order to determine to what degree the problem exists we modified the
-Vuze [4] to record the local view of nodes over time. This data was then
+Vuze to record the local view of nodes over time. This data was then
 analyzed to compute the global view of rarest blocks. As we suspected,
 we found that the rarest block is not necessarily known throughout the
 entire torrent. Furthermore, the data showed that sometimes this lack
@@ -82,7 +82,7 @@ may lead to additional investigations of other aspects of the BitTorrent
 protocol that only work well under steady state conditions. Furthermore,
 the use of gossip to communicate information about the swarm as a whole
 allowed us to do efficiently what had previously been considered too
-costly to implement [5].
+costly to implement \cite{cohen:1}.
 
 
 The remainder of this paper is organized as follows. Section II discusses
