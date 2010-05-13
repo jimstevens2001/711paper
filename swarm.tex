@@ -1,15 +1,78 @@
-\section{Standard BitTorrent Swarm Study}
+\section{Standard BitTorrent Study}
 
-This section is not complete yet. We have completed coding the simulator
-and finished debugging it for complex swarms the day this draft was completed. Initial
-results have been collected that show local vs. global knowledge for various swarm sizes, but
-were not ready to put into the report at the time of the deadline.
+\subsection{Experimental Setup}
 
-In this section, we will show several things:
+In this section, we will study two types of swarms and compare the
+performance of each when using local knowledge or global knowledge for
+the rarest piece selection algorithm. The goal of this section is to
+explore the potential for a gossip algorithm to improve BitTorrent.
+The first type is a swarm that starts with a single seed and a number
+of leechers.  The seed is altruistic and therefore will stay the entire
+time. This simulates a ``healthy'' swarm that will not die, but may benefit
+from better replication of pieces. The second type is a swarm with no
+seeders, although a complete copy of the file exists within the swarm
+between a few nodes. This simulates a situation in which the seeders
+have left and a swarm is in an ``unhealthy'' state. None of the nodes
+are altruistic and therefore leave as soon as possible. For this swarm,
+there are two goals. The primary goal is to simply make sure the swarm
+survives, because it is possible for a node to leave with pieces that
+only it holds, which means no other node can complete. The second goal
+is, if the swarm survives, can global knowledge improve performance.
 
-\begin{itemize}
-\item Local vs. Global rarest pieces at different time steps for various swarm sizes.
-\item Study average completion time for nodes if they use local or global knowledge in their piece selection.
-\item Study what happens when nodes with partial completed files join and attempt to find the last pieces (we feel this situation is very good for gossip).
-\item Study what happens when seeds leave the swarm (with varying degrees of file completion among the leechers) to see if gossip can extend the lifetime of the swarm.
-\end{itemize}
+For all of the experiments below, we are assuming the swarm is sharing a
+40 MB file divided into 1000 pieces. All leechers have a download rate
+selected from a uniform distribution between 50 and 100 KB/s, which is
+approximately what a DSL user can achieve in a typical swarm. Finally, all
+leechers will join at a random time in the first 100 seconds of the swarm.
+
+The measurements taken for each experiment are simply the download times for
+each node in the swarm. We considered other methods such as metrics to
+evaluate local vs. global knowledge, such as a distance metric comparing the 
+list of pieces sorted by rarity within the peer set vs. rarity globally, but
+decided that such metrics were fairly artibtrary and the node download times
+tell us what we actually care about: will global knowledge improve a swarm's
+performance?
+
+\subsection{Swarms with Seeders}
+
+In this section, we will examine swarms with a single seeder at the beginning
+and a number of leechers that join in the first 100 seconds. To ensure
+that a diverse set of conditions are studied, the number of nodes in the swarm, 
+number of peers per node, and the initial seeder's upload rate will be varied.
+In the healthiest swarms with a seeder, there should be many nodes, many peers per node, and
+a high seeder upload rate. Likewise, the least healthy swarms have fewer nodes,
+fewer peers per node, and a lower upload rate for the seeder. However, if too fewer
+nodes exist than the peers allowed per node, then each node will have perfect global
+knowledge by default, therefore, the number of nodes must always be kept above
+the number of peers per node. 
+
+% Variables:
+% Number of nodes: 100, 200
+% Number of peers: 10/20, 20/30, 30/40 (desired/max)
+% Seed upload rate: 5, 20, 40, 100
+
+% Experiments (local vs global for each):
+% (100, 10, 100) L = 1780, 1533 G = 2040, 1734
+% (100, 20, 100) L = 1650, 1345 G = 1700, 1429
+% (100, 30, 100) L = 1550, 1396 G = 1720, 1368
+% (200, 10, 100)
+% (200, 20, 100)
+% (200, 30, 100) L = 1950, 1478 G = 2060, 1565
+
+% (100, 10, 5)
+% (100, 10, 20)
+% (100, 10, 40) L = 1541, 1305
+
+% Also, do a couple runs with omniscient
+
+% Table 1:
+% nodes, peers, rate, local total runtime, local average download time, global total runtime, global average download time
+
+% Figure 1:
+% Have a column of graphs for a couple experiments, show local on left, global on right
+% This will show all download times vs. download rates
+
+
+\subsection{Swarms with No Seeders}
+
+Describe the NO\_SEED test and give results.

@@ -11,3 +11,25 @@ needs.
 Note: We are still in the process of implementing the Gossip system, so
 we cannot complete this section at the current time.
 
+\subsection{Recovery Mode}
+
+Another gossip protocol that is orthogonal to the protocol described above is 
+what we have dubbed ``Recovery Mode'' or ``Emergency Mode''. Basically, we
+want to prevent a situation in which a seeder leaves and takes a unique pieces
+with it, leaving the other nodes unable to finish. This gossip protocol obviously
+cannot force seeders to stay, but it can help seeders learn when it is safe to
+leave without stranding the rest of the torrent. 
+
+There are many ways such a protocol could be structured. We wanted the lowest
+overhead protocol possible, so we chose a method based on a simple OR operation
+at each node. 
+
+Basically, each exchange round a node will check its peers bitfields
+and make sure that all of the pieces of the file are available within its peer
+set.
+
+If not, the node will broadcast a WAIT message to all of its peers. These peers will
+then forward the message to their peers at their next exchange round. A timestamp
+is sent with the message to ensure the message do not cycle. 
+
+
