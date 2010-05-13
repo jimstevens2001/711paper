@@ -74,4 +74,25 @@ the number of peers per node.
 
 \subsection{Swarms with No Seeders}
 
+The primariy goal of this research, however, was not to improve performance in
+healthy swarms but to prevent the death of unhealthy swarms. The existence of the
+99\% problem seems to indicate that it is a common occurance in the real world for
+a seed or a set of peers to leave abruptly and strand the swarm with no copies of certain
+pieces. In these situations it might have been possible for the swarm to survive if the nodes
+in that swarm had efficiently duplicated every piece at least once in the swarm. To determine
+how effective the existing local knowledge implementation of BitTorrent was as dealing with
+this situation we created a special swarm with no seed. Instead the a single copy of each piece
+was spread between four nodes which would leave promptly upon completing the entire file. This
+created the situation where the swarm had to create copies of all of the critical pieces 
+before any of the four critical nodes left the swarm. This kind of swarm also resembles a
+swarm that has experienced flash crowd behavior where a large number of nodes joined completed
+the file and then left. The four nodes that start this simulation would then be the remainder of
+that initial flash crowd while the new nodes joining would represent the steady stream of nodes
+that often join after a flash crowd. For more information on this behavior in torrents, please
+see ``The Bittorrent P2P File-Sharing System: Measurements and Analysis'' (**CITE HERE**). 
+
+Using this ``unheatly'' swarm simulation setup we then ran the simulation five times for the 
+following levels of node knowledge: local knowledge, global knowledge and omniscience. 
+
+
 Describe the NO\_SEED test and give results.
