@@ -1,18 +1,23 @@
 \begin{abstract}
-The BitTorrent protocol is a popular peer-to-peer algorithm that is able to 
-transfer large files efficiently over the internet. One of major
-downsides of this protocol is that the torrents are often only available
-for a relatively limited time. This is because, after a certain
-amount of time has elapsed, there are no longer any nodes in the
-network that possess certain pieces of the file. This work
-investigates ways of extending the lifetime of a torrent by
-intellegently selecting which peers to select and which pieces to download first based on global
-information regarding the rarest pieces in the network. To accomplish
-this global view of the swarm, we propose the addition of gossip
-messages to the BitTorrent protocol which propagate information on the
-rarest pieces. Our results show that this method is able to improve
-the piece selection of nodes thereby creating addtional copies of
-critically rare pieces. In addition, we also find several other
-important applications of the gossip messages that can be leveraged to
-extend the life of the torrent. 
+The BitTorrent protocol is a popular peer-to-peer algorithm that is able
+to transfer large files efficiently over the internet. A core component
+of the algorithm is the local rarest first piece selection algorithm,
+which selects pieces to download based on rarity with a node's peer
+set to maximize the number of copies of each pieces in a BitTorrent swarm. 
+In this paper, we study how good the local knowledge within the peer set is compared to
+perfect global knowledge of piece rarity. The hypothesis is that piece
+selection with perfect global knowledge can either improve torrent
+performance and/or extend the life of unhealthy swarms.  We implemented a
+BitTorrent simulator that allows nodes to access perfect global knowledge
+at any time and ran experiments. We find that for healthy swarms with seeders
+that perfect global knowledge does not improve the average download
+times for nodes. However, for unhealthy swarms that have no seeders
+but still have a complete copy of the file distributed in the swarm,
+we find that perfect global knowledge can help prevent the swarm from
+losing pieces, which results in nodes being unable to complete their downloads. 
+Next, we analyze a gossip protocol that can approximate
+global knowledge efficiently. We find that [INSERT RESULT HERE]. We also
+describe an alternative gossip protocol to help seeders determine if it is
+safe to leave a swarm without causing pieces to be lost. 
+
 \end{abstract}
