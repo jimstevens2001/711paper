@@ -49,27 +49,48 @@ the number of peers per node.
 % Variables:
 % Number of nodes: 100, 200
 % Number of peers: 10/20, 20/30, 30/40 (desired/max)
-% Seed upload rate: 5, 20, 40, 100
+% Seed upload rate: 60, 80, 100
 
 % Experiments (local vs global for each):
 % (100, 10, 100) L = 1780, 1533 G = 2040, 1734
 % (100, 20, 100) L = 1650, 1345 G = 1700, 1429
 % (100, 30, 100) L = 1550, 1396 G = 1720, 1368
 
-% (150, 20, 100)
 % (200, 30, 100) L = 1950, 1478 G = 2060, 1565
 
-% (100, 10, 20)
-% (100, 10, 40) 
+% (100, 10, 80)  L = 2430, 2256 G = 2500, 2245
 
-% Also, do a couple runs with omniscient
 
 % Table 1:
 % nodes, peers, rate, local total runtime, local average download time, global total runtime, global average download time
 
-% Figure 1:
-% Have a column of graphs for a couple experiments, show local on left, global on right
-% This will show all download times vs. download rates
+Table X shows the results for a number of simulations with a single
+seeder. The key takeaway for all of the data above seems to be that there
+is very little difference in performance between using the peer set or the
+global node set for the rarest first piece selection algorithm. Sometimes
+local knowledge is better and sometimes global knowledge is better,
+but not in any statistically significant fashion. All of the various
+scenarios tested above, including slowing down the seeder, decreasing
+the number of peers, etc. all showed this same basic pattern. This means
+that even if we had an absolutely perfect gossip algorithm, it would do
+very little to help improve the performance of these swarms.
+
+Other observations from this data include some obvious things such as
+if the seeder's upload rate is decreased, the overall swarm has a much
+longer download time. This makes sense because the seeder's upload rate
+is divided five ways between its unchoked peers, so it will take more
+time for the first copy of pieces to get out into the network and be
+replicated. We also ran some even slower seeders such as an as uprate
+of 20 that were not finishing in any reasonable amount of time so we
+did not collect the run times. One interesting result was that even if
+the numer of nodes doubles, the performance penalty for node downloading
+was essentially negligible. This shows that BitTorrent scales very well
+assuming the initial seeder can get the pieces replicated.  We can also
+see that as the number of peers increases, performance improves somewhat
+going from 10 to 20 peers, but seems to reach diminishing returns going
+from 20 to 30 peers. This is likely the result the faster nodes to
+finding each other and making replicas faster.
+
 
 
 \subsection{Swarms with No Seeders}
