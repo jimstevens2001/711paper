@@ -57,25 +57,24 @@ nodes exist than the peers allowed per node, then each node will have perfect gl
 knowledge by default, therefore, the number of nodes must always be kept above
 the number of peers per node. 
 
-% Variables:
-% Number of nodes: 100, 200
-% Number of peers: 10/20, 20/30, 30/40 (desired/max)
-% Seed upload rate: 60, 80, 100
 
-% Experiments (local vs global for each):
-% (100, 10, 100) L = 1780, 1533 G = 2040, 1734
-% (100, 20, 100) L = 1650, 1345 G = 1700, 1429
-% (100, 30, 100) L = 1550, 1396 G = 1720, 1368
+\begin{table*}
+\centering
+\caption{Swarms with Seeds Results}
+\begin{tabular}{|c|c|c|c|c|c|c|} \hline
+Nodes & Peers & Upload Rate & Local Runtime & Local Download Time & Global Runtime & Global Download Time\\ \hline
 
-% (200, 30, 100) L = 1950, 1478 G = 2060, 1565
+100 & 10 & 100 & 1780 & 1533 & 2040 & 1734\\
+100 & 20 & 100 & 1650 & 1345 & 1700 & 1429\\
+100 & 30 & 100 & 1550 & 1396 & 1720 & 1368\\
+200 & 30 & 100 & 1950 & 1478 & 2060 & 1565\\
+100 & 10 & 80  & 2430 & 2256 & 2500 & 2245\\
+\hline\end{tabular}
+\label{tab:seedresults}
+\end{table*}
 
-% (100, 10, 80)  L = 2430, 2256 G = 2500, 2245
 
-
-% Table 1:
-% nodes, peers, rate, local total runtime, local average download time, global total runtime, global average download time
-
-Table X shows the results for a number of simulations with a single
+Table \ref{tab:seedresults} shows the results for a number of simulations with a single
 seeder. The key takeaway for all of the data above seems to be that there
 is very little difference in performance between using the peer set or the
 global node set for the rarest first piece selection algorithm. Sometimes
@@ -139,6 +138,24 @@ replicate the pieces more efficiently and thereby extended the
 lifetime of the torrent. The results from all five runs for each type
 of node knowledge are presented in Table X.
 
+\begin{table*}
+\centering
+\caption{Swarms with No Seeds Results}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|} \hline
+Runs & 1 & 2 & 3 & 4 & 5 & 1 & 2 & 3 & 4 & 5\\ \hline
+Knowledge Type & \multicolumn{5}{c|}{nodes stranded} & \multicolumn{5}{c|}{average times}\\ \hline
+local      & 99&  2& 99& 99& 99&1387&2540&1710&2019&1433\\
+global     & 99& 99& 99& 99& 46&1850&1464&1369&1535&2391\\
+omniscient &  1&  2&  2& 99&  2&1711&2370&1646&1465&2386\\ \hline \hline
+\multicolumn{11}{|c|}{Summary}\\ \hline
+Knowledge Type & \multicolumn{5}{c|}{Average Nodes Stranded} & \multicolumn{5}{c|}{Average Times}\\ \hline
+Local & \multicolumn{5}{c|}{80} & \multicolumn{5}{c|}{1818}\\
+Global & \multicolumn{5}{c|}{88} & \multicolumn{5}{c|}{1727}\\
+Omniscient & \multicolumn{5}{c|}{21} & \multicolumn{5}{c|}{1916}\\
+\hline\end{tabular}
+\label{tab:noseedresults}
+\end{table*}
+
 %variables global, local or omniscient knowledge
 %Table
 %    Runs       | 1 | 2 | 3 | 4 | 5 | 1  | 2  | 3  | 4  | 5  |
@@ -153,7 +170,7 @@ of node knowledge are presented in Table X.
 %    omniscient |          21             |        1916      |
 
 
-From the results in Table X we can see that omniscient node knowledge
+From the results in Table \ref{tab:noseedresults} we can see that omniscient node knowledge
 represents a optimal maximum for the efficiency of piece
 replication. Interestingly global knowledge performed worse than local
 knowledge in terms of efficient piece replication. This is because the
