@@ -3,11 +3,13 @@
 In this paper, we described the BitTorrent protocol simulator we created
 to study the utility of better global knowledge of rarest pieces in a
 BitTorrent swarm. With this simulator, we showed that for healthy swarms,
-global knowledge does not make a difference, but for unhealthy swarms
-with no seeds, global knowledge can help prevent the swarm from losing
+knowledge about the state of the entire swarm  does not make a difference,
+but for unhealthy swarms
+with no seeds, that knowledge can help prevent the swarm from losing
 pieces.  We then propose a gossip protocol to allow BitTorrent nodes to
-allow more global knowledge to be known by the nodes and demonstrated
-that it allows similar results to the perfect global knowledge. We also
+communicate knowledge on the current state of the entire swarm to all of the 
+nodes in the swarm and demonstrated
+that it allows similar results to omniscient knowledge. We also
 analyzed the overhead of the gossip protocol and proposed an alternative
 gossip protocol to help swarms stay alive when seeders are willing to
 be slightly altruistic.
