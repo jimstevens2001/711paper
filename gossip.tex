@@ -48,12 +48,12 @@ In order to provide a information on the entire swarm to every node,
 messages are forwarded by a node to all of its peers (except the peer
 that sent it). In this way gossip messages are communicated throughout
 the entire swarm. As a result of this forwarding the overhead of the
-gossip protocol each round is roughly N^2*S where N is the number of
+gossip protocol each round is roughly N*N*S where N is the number of
 nodes in the swarm and S is the size of the gossip messages.
 
 \subsection{Gossip Results}
 
-Insert gossip performance analysis here.
+To analyze the 
 
 \subsection{Recovery Mode}
 
