@@ -62,7 +62,8 @@ the number of peers per node.
 \centering
 \caption{Swarms with Seeds Results}
 \begin{tabular}{|c|c|c|c|c|c|c|} \hline
-Nodes & Peers & Upload Rate & Local Runtime & Local Download Time & Global Runtime & Global Download Time\\ \hline
+\multicolumn{3}{|c|}{Configuration} & \multicolumn{2}{|c|}{Local} & \multicolumn{2}{|c|}{Global} \\ \hline
+Nodes & Peers & Upload Rate & Total Runtime & Average Download Time & Total Runtime & Average Download Time\\ \hline
 
 100 & 10 & 100 & 1780 & 1533 & 2040 & 1734\\
 100 & 20 & 100 & 1650 & 1345 & 1700 & 1429\\
@@ -99,7 +100,7 @@ assuming the initial seeder can get the pieces replicated.  We can also
 see that as the number of peers increases, performance improves somewhat
 going from 10 to 20 peers, but seems to reach diminishing returns going
 from 20 to 30 peers. This is likely the result the faster nodes to
-finding each other and making replicas faster.
+finding each other and making replicas sooner.
 
 
 
@@ -109,13 +110,13 @@ The primariy goal of this research, however, was not to improve
 performance in healthy swarms but to prevent the death of unhealthy
 swarms. To determine how effective the existing local knowledge
 implementation of BitTorrent was as dealing with this situation we
-created a special swarm with no seed. Instead the a single copy of
+create a special swarm with no seed. Instead the a single copy of
 each piece was spread between four nodes which would leave promptly
-upon completing the entire file. This created the situation where the
+upon completing the entire file. This creates the situation where the
 swarm had to create copies of all of the critical pieces before any of
 the four critical nodes left the swarm. This kind of swarm also
-resembles a swarm that has experienced flash crowd behavior where a
-large number of nodes joined completed the file and then left. The
+resembles a swarm that experiences flash crowd behavior where a
+large number of nodes join, complete the file, and then leave. The
 four nodes that start this simulation would then be the remainder of
 that initial flash crowd while the new nodes joining would represent
 the steady stream of nodes that often join after a flash crowd. For
@@ -128,15 +129,15 @@ simulation five times for the three levels of node knowledge discussed
 in section 4.1: local knowledge, global knowledge and
 omniscience. Five runs were performed for each level of knowledge
 because the probibalistic distribution of pieces and upload/download
-rates sometimes produced swarms that could not fail or swarms that
-could not be saved. This can be seen in the failure that occured even
-with omniscient nodes. Swarms which survived finished the simulation
+rates sometimes produce swarms that cannot fail or swarms that
+could not be saved. This can be seen in the failure that occurs even
+with omniscient nodes. Swarms which survive finish the simulation
 with a single node remaining. Among those swarms which did not survive
 the degree of piece replication efficiency can be seen in how many
-nodes were stranded. The swarms with fewer peers remaining managed to
-replicate the pieces more efficiently and thereby extended the
-lifetime of the torrent. The results from all five runs for each type
-of node knowledge are presented in Table X.
+nodes were stranded. The swarms with fewer peers remaining manage to
+replicate the pieces more efficiently and thereby extend the
+lifetime of the torrent. We present the results from all five runs for each type
+of node knowledge in Table \ref{tab:noseedresults}.
 
 \begin{table*}
 \centering
@@ -173,9 +174,9 @@ Omniscient & \multicolumn{5}{c|}{21} & \multicolumn{5}{c|}{1916}\\
 
 From the results in Table \ref{tab:noseedresults} we can see that omniscient node knowledge
 represents a optimal maximum for the efficiency of piece
-replication. Interestingly global knowledge performed worse than local
+replication. Interestingly, global knowledge performs worse than local
 knowledge in terms of efficient piece replication. This is because the
-global view of the swarms causes the node with global knowledge to all
+global view of the swarms causes the nodes with global knowledge to all
 download the same piece from the critical nodes so many copies are
 created of one critically rare piece while other critically rare
 pieces aren't copied at all. The local knowledge nodes were therefore
@@ -183,9 +184,7 @@ more efficient because their notion of the rarest piece was more
 diverse. This lead them to replicate different pieces and achieve more
 efficeint replication overall. The primary conclusion to be drawn from
 these results is, therefore, that while local knowledge can
-occationally save a swarm, a more intelligent piece replication scheme
+occaisionally save a swarm, a more intelligent piece replication scheme
 would be more effective. This opens the door for BitTorrent gossip to
 achieve real gains over the traditional implementation by extending
 the lifetime of the torrent in extreme situations.
-
-Describe the NO\_SEED test and give results.
