@@ -54,39 +54,39 @@ situations. Through better understanding of the behavior of the protocol
 in extreme situations adjustments can be made which can improve the
 torrents survivability thereby making the protocol even more effective.
 
-Another measurement project \cite{pouwelse} to determine the behavior of real-world
-bit torrent swarms was carried out by Pouwelse et al. which observed
-flash-crowd behavior similar to what Izal et al saw but also found
-interesting relationships between the health of a torrent and the number
-of seeds. Specifically, Pouwelse found that sometimes it can quite long
-before there are any more seeds than the original seeder (up to 3 days
-in some of the observed cases). Interestingly, Pouwelse also found
-that the number of seeds did not seem to determine the lifetime of a
-torrent. These findings show that the lifetime and health of a torrent
-depend on more complex factors than merely having an appropriate number
-of seeds. This lends support to our hypothesis that the behavior of the
-protocol, such as poor next piece selection, in certain situations has a
-significant effect on the health of the swarm.This work analyzed a much
-broader range of torrents than Izal et al and so provides useful data on
-the behavior of BitTorrent swarms under more extreme conditions. However,
-while this study examines the kinds of swarms that are of interest to
-our project, it was primarily interested in the general behavior of the
-protocol whereas we are primarily interested in only the relationship
-between the information each peer has about the swarm and the correctness
-of its next piece selection.By focusing on a more specific aspect of
-the behavior of the protocol, our work is able to more clearly identify
-areas for improvement and accurately evaluate solutions for that specific
-problem. Our work focused on trying to identify the behavior of the
-rarest first piece selection of swarms in extreme conditions in which
-their local view of the swarm might not be ideal in order to determine
-if this might be partially responsible for death of such swarms. As a
-result of the measurements taken by this project and others the general
-behavior of the BitTorrent protocol in a wide variety of real-world swarms
-is now well understood. However, the behavior of the various components
-of the protocol and how they contribute to the overall behavior has not
-be studied to the same extent. By more closely examining the behaviors
-of the constituent algorithms of BitTorrent additional areas requiring
-improvement may be identified.
+%Another measurement project \cite{pouwelse} to determine the behavior of real-world
+%bit torrent swarms was carried out by Pouwelse et al. which observed
+%flash-crowd behavior similar to what Izal et al saw but also found
+%interesting relationships between the health of a torrent and the number
+%of seeds. Specifically, Pouwelse found that sometimes it can quite long
+%before there are any more seeds than the original seeder (up to 3 days
+%in some of the observed cases). Interestingly, Pouwelse also found
+%that the number of seeds did not seem to determine the lifetime of a
+%torrent. These findings show that the lifetime and health of a torrent
+%depend on more complex factors than merely having an appropriate number
+%of seeds. This lends support to our hypothesis that the behavior of the
+%protocol, such as poor next piece selection, in certain situations has a
+%significant effect on the health of the swarm.This work analyzed a much
+%broader range of torrents than Izal et al and so provides useful data on
+%the behavior of BitTorrent swarms under more extreme conditions. However,
+%while this study examines the kinds of swarms that are of interest to
+%our project, it was primarily interested in the general behavior of the
+%protocol whereas we are primarily interested in only the relationship
+%between the information each peer has about the swarm and the correctness
+%of its next piece selection.By focusing on a more specific aspect of
+%the behavior of the protocol, our work is able to more clearly identify
+%areas for improvement and accurately evaluate solutions for that specific
+%problem. Our work focused on trying to identify the behavior of the
+%rarest first piece selection of swarms in extreme conditions in which
+%their local view of the swarm might not be ideal in order to determine
+%if this might be partially responsible for death of such swarms. As a
+%result of the measurements taken by this project and others the general
+%behavior of the BitTorrent protocol in a wide variety of real-world swarms
+%is now well understood. However, the behavior of the various components
+%of the protocol and how they contribute to the overall behavior has not
+%be studied to the same extent. By more closely examining the behaviors
+%of the constituent algorithms of BitTorrent additional areas requiring
+%improvement may be identified.
 
 In a more targeted measurement study, Legout et. al. \cite{legout:1} showed
 that the rarest first algorithm is effective for distributing rare
