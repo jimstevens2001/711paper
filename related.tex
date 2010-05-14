@@ -1,15 +1,14 @@
 \section{Related Work}
 
 In this section we review the prior works related to our project. We
-review three types of work: overviews of BitTorrent's local rarest first
-(LRF) piece selection algorithm, measurement studies that analyze the
-behavior of the BitTorrent protocol in a variety of real-world situations
-and prior attempts to integrate gossip protocols into BitTorrent. These
-three categories of prior work influenced the primary contributions
-of our project which involved both measuring the behavior of the LRF
-algorithm to determine its performance in different situations and
-modifying the BitTorrent protocol to incorporate gossip to provide
-additional information to the LRF algorithm.
+review two types of work: overviews of BitTorrent's local rarest first
+(LRF) piece selection algorithm and measurement studies that analyze the
+behavior of the BitTorrent protocol in a variety of real-world situations.
+%These three categories of prior work influenced the primary contributions
+%of our project which involved both measuring the behavior of the LRF
+%algorithm to determine its performance in different situations and
+%modifying the BitTorrent protocol to incorporate gossip to provide
+%additional information to the LRF algorithm.
 
 When Cohen introduced BitTorrent he wrote a paper entitled "Incentives
 build robustness in BitTorrent" to explain several of the central
@@ -61,7 +60,7 @@ flash-crowd behavior similar to what Izal et al saw but also found
 interesting relationships between the health of a torrent and the number
 of seeds. Specifically, Pouwelse found that sometimes it can quite long
 before there are any more seeds than the original seeder (up to 3 days
-in some of the observed cases), Interestingly, Pouwelse also found
+in some of the observed cases). Interestingly, Pouwelse also found
 that the number of seeds did not seem to determine the lifetime of a
 torrent. These findings show that the lifetime and health of a torrent
 depend on more complex factors than merely having an appropriate number
@@ -126,17 +125,17 @@ provide a more accurate picture of the global state and solve issues
 this paper showed such as the leechers with different percentages of
 the file.  
 
-There is also previous work in applying gossip protocols to
-BitTorrent, although none of these systems address the issue we are
-concerned about in our work: improving global knowledge for rarest
-pieces. The Tribler BitTorrent \cite{tribler} client creates an extension
-that allows the gossiping of .torrent files held by other peers
-to allow for decentralized keyword searching for content. Qureshi
-\cite{proximity} attempts to extend BitTorrent to build a locality-based overlay
-rather than the current random overlay. Gossip messages are used to
-communicate network coordinates computed from measured round-trip
-times between the peers. Guerraoui et. al. \cite{freerider} attempt to combat
-techniques that take advantage of altruism in BitTorrent by using
-a gossip protocol to detect free riders. Finally, many BitTorrent
-clients support peer exchange (PEX), which allows them to exchange
-(i.e. gossip) peers in a decentralized fashion \cite{pex}.
+%There is also previous work in applying gossip protocols to
+%BitTorrent, although none of these systems address the issue we are
+%concerned about in our work: improving global knowledge for rarest
+%pieces. The Tribler BitTorrent \cite{tribler} client creates an extension
+%that allows the gossiping of .torrent files held by other peers
+%to allow for decentralized keyword searching for content. Qureshi
+%\cite{proximity} attempts to extend BitTorrent to build a locality-based overlay
+%rather than the current random overlay. Gossip messages are used to
+%communicate network coordinates computed from measured round-trip
+%times between the peers. Guerraoui et. al. \cite{freerider} attempt to combat
+%techniques that take advantage of altruism in BitTorrent by using
+%a gossip protocol to detect free riders. Finally, many BitTorrent
+%clients support peer exchange (PEX), which allows them to exchange
+%(i.e. gossip) peers in a decentralized fashion \cite{pex}.
