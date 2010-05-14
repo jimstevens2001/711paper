@@ -1,11 +1,13 @@
 \section{Conclusion}
 
-In this report, we described the BitTorrent protocol simulator we created to study how files 
-propagate throughout a swarm. We used the simulator to study local versus global knowledge
-in BitTorrent and found situations in which the local view is insufficient to provide 
-optimal performance. We then propose a gossip protocol to allow BitTorrent nodes to
-allow more global knowledge to be known by the nodes. Finally, we studied the effects
-of the gossip protocol on swarm performance and demonstrated that, in certain important cases,
-gossip can improve swarm performance.
-
-
+In this paper, we described the BitTorrent protocol simulator we created
+to study the utility of better global knowledge of rarest pieces in a
+BitTorrent swarm. With this simulator, we showed that for healthy swarms,
+global knowledge does not make a difference, but for unhealthy swarms
+with no seeds, global knowledge can help prevent the swarm from losing
+pieces.  We then propose a gossip protocol to allow BitTorrent nodes to
+allow more global knowledge to be known by the nodes and demonstrated
+that it allows similar results to the perfect global knowledge. We also
+analyzed the overhead of the gossip protocol and proposed an alternative
+gossip protocol to help swarms stay alive when seeders are willing to
+be slightly altruistic.
