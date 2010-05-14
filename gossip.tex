@@ -53,7 +53,32 @@ nodes in the swarm and S is the size of the gossip messages.
 
 \subsection{Gossip Results}
 
-To analyze the 
+To analyze the effectiveness of this gossip protocol we created a
+swarm like the ones we used to test the effectivenes of local, global
+and omniscient knowledge. The gossip swarm results are presented in
+Table X. From these results we can clearly see that the gossip
+protocol replicates the critically rare pieces much more efficiently
+than local and global knowledge do. This allows it significantly extend the
+lifetimes of three of the five test swarms. The gossip protocol does
+not currently achieve efficiency on the level of the ideal omniscient
+nodes however there is still a great deal of room for improvement
+in the protocol. So, with time and fine tuning the effciency may be
+improved. Furthermore, the small number of test swarms may have
+resulted in the gossip tests simply being unlucky. Omniscient failed
+to save one swarm because the conditions of the test swarm made it
+impossible to save. It is possible that this simply happened twice for
+gossip protocol versus just once for the omniscient nodes in our
+limited set of five runs. However, the consistentency with which the
+global and local knowledge nodes failed to save the swarm indicates
+that this result is reliable.
+
+%Table
+%    Runs       | 1 | 2 | 3 | 4 | 5 | 1  | 2  | 3  | 4  | 5  |
+%               |  nodes stranded   |     average times      |
+%   Gossip      | 11| 99|  1|  7| 99|1981|1254|2293|1901|2130|
+%
+%               | average nodes stranded  |   average time   | 
+%   Gossip      |          43             |       1912       |
 
 \subsection{Recovery Mode}
 
