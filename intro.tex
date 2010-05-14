@@ -61,26 +61,20 @@ the inadequacy of the local view, we implement a gossip protocol to
 construct an improved global view of the swarm at each peer.  We then
 modify the next piece selection routine to leverage the information
 about the globally rarest blocks to request the blocks most in need of
-replication from its neighbors. We verified the effectiveness of this approach 
-by running a series of simulations that approximate a
-range of swarms. We also analyze the gossip protocol's overhead to show
-that gossip is practical in terms of network usage and node storage.
-
-Additionally, we also propose an alternative gossip protocol to assist
+replication from its neighbors. We verified the effectiveness of this
+approach by running a series of simulations that approximate a unhealthy
+swarms. We also analyze the gossip protocol's overhead to show that gossip
+is practical in terms of network usage and node storage.  Additionally,
+we also propose an alternative low-overhead gossip protocol to assist
 seeds that are altruistic enough to want the swarm to survive after they
-leave. This protocol uses gossip to let the seed know when it is safe
-to leave the swarm by ensuring that enough replicas of each pieces are
-available. We also show that the alternative gossip protocol uses even
-less network resources than the previous gossip protocol.
-
+leave by letting these seeds know when it is safe to leave.
 
 The primary insight of this work is that the lack of a global view is
 a contributing factor to the last block problem in unhealthy swarms
 and can be improved with a global picture of the swarm.  Furthermore,
-the use of gossip to communicate information about the swarm as a whole
+the use of gossip to communicate global information about the swarm 
 allowed us to do efficiently what had previously been considered too
 costly to implement \cite{cohen:1}.
-
 
 The remainder of this paper is organized as follows. Section II discusses
 the related work. Section III describes our simulation design.  Section IV
