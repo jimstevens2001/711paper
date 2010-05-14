@@ -5,19 +5,19 @@ of the algorithm is the local rarest first piece selection algorithm,
 which selects pieces to download based on rarity with a node's peer
 set to maximize the number of copies of each piece in a BitTorrent swarm. 
 In this paper, we study how good the local knowledge within the peer set is compared to
-perfect global knowledge of piece rarity. The hypothesis is that piece
+complete global knowledge of piece rarity. The hypothesis is that piece
 selection with perfect global knowledge can either improve torrent
 performance and/or extend the life of unhealthy swarms.  We implemented a
-BitTorrent simulator that allows nodes to access perfect global knowledge
+BitTorrent simulator that allows nodes to access complete global knowledge
 at any time and ran experiments. We find that for healthy swarms with seeders
-that perfect global knowledge does not improve the average download
+that complete global knowledge does not improve the average download
 times for nodes. However, for unhealthy swarms that have no seeders
 but still have a complete copy of the file distributed in the swarm,
-we find that perfect global knowledge can help prevent the swarm from
+we find that complete global knowledge can help prevent the swarm from
 losing pieces, which results in nodes being unable to complete their downloads. 
-Next, we design and analyze a gossip protocol that can approximate
+Next, we design and analyze a gossip protocol that can approximate complete
 global knowledge efficiently. We find that gossip can help swarms with no seeders
-almost as much as perfect global knowledge. We also
+almost as much as complete global knowledge. We also
 describe an alternative gossip protocol to help seeders determine if it is
 safe to leave a swarm without causing pieces to be lost. 
 
