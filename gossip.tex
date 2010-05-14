@@ -11,31 +11,31 @@ about the current state of the swarm. As we saw in Section 4.3
 omniscient knowledge allows nodes to make the most intelligent
 decision about which piece to download next. 
 
-To create this approximate omnisient knowledge two things have to be
+To create this approximate omniscient knowledge, two things have to be
 communicated between the nodes in the swarm. First, every node needs
 to know each node's local view of the swarm in terms of the pieces
 that it and its neighbors hold. This allows the node to determine
-accurately which pieces are truely rare in the swarm as a whole. Second, every
+accurately which pieces are truly rare in the swarm as a whole. Second, every
 node needs to know what each node is planning on downloading
 next. This is needed so that a node will not request the same piece as
 its neighbors thereby losing an opportunity to replicate a rare
 piece. To communicate this information short gossip messages are
 formed by each node every exchange round and sent to all of that
 node's peers. To form this message, the peer determines how many of
-its peers hold each piece in the torrent. This constitues the first
+its peers hold each piece in the torrent. This constitutes the first
 part of the required information for omniscient nodes. Then the node
 adds one to the count for every piece that it is requesting from its
 peers this exchange round. This constitutes the second part of the
 required information for omniscient nodes. From these counts the node
 is able to form a list of the pieces ordered according to rarity.
-Pieces with the lowest count are rarist. It then sends the top 3 rare
-pieces to all of its peers in a gossip message with its node id. To
+Pieces with the lowest count are rarest. It then sends the top 3 rare
+pieces to all of its peers in a gossip message with its node ID. To
 prevent old messages from recirculating throughout the swarm, a
-timestamp is also added to the message. Recieving peers will maintain
-counts of messages recieved from a particular node, if that value is
+timestamp is also added to the message. Receiving peers will maintain
+counts of messages received from a particular node, if that value is
 greater than the message's timestamp then the message is discarded.
 
-At the other side of the message transmission, the recieving node
+At the other side of the message transmission, the receiving node
 accumulates all of the gossip messages from its peers and goes
 through these messages during its exchange round. Using the lists of
 rarest pieces from each message, the node builds a list of globally
@@ -48,27 +48,30 @@ In order to provide information on the entire swarm to every node,
 messages are forwarded by a node to all of its peers (except the peer
 that sent it). In this way gossip messages are communicated throughout
 the entire swarm. As a result of this forwarding the overhead of the
-gossip protocol each round is roughly N*N*S where N is the number of
-nodes in the swarm and S is the size of the gossip messages.
+gossip protocol each round is roughly N*N*S per exchange round where N is the number of
+nodes in the swarm and S is the size of the gossip messages. In our protocol
+currently only 5 words are necessary for S and N is usually 100, which
+roughly translates to 0.4 KB/s for each node, which is small compared to
+a typical node's overall download rate.
 
 \subsection{Gossip Results}
 
 To analyze the effectiveness of this gossip protocol we created a
-swarm like the ones we used to test the effectivenes of local, global
+swarm like the ones we used to test the effectiveness of local, global
 and omniscient knowledge. The gossip swarm results are presented in
-Table \ref{tab:noseedresults}. From these results we can clearly see that the gossip
+Table \ref{tab:noseedresults} along with the previous results. From these results, we can clearly see that the gossip
 protocol replicates the critically rare pieces much more efficiently
-than local and global knowledge do. This allows it to significantly extend the
+than local and global knowledge. This allows it to significantly extend the
 lifetimes of three of the five test swarms. The gossip protocol does
 not currently achieve efficiency on the level of the ideal omniscient
 nodes however there is still a great deal of room for improvement
-in the protocol. So, with time and fine tuning the effciency may be
+in the protocol. So, with time and fine tuning the efficiency may be
 improved. Furthermore, the small number of test swarms may have
 resulted in the gossip tests simply being unlucky. Omniscient failed
 to save one swarm because the conditions of the test swarm made it
 impossible to save. It is possible that this simply happened twice for
 gossip protocol versus just once for the omniscient nodes in our
-limited set of five runs. However, the consistentency with which the
+limited set of five runs. However, the consistency with which the
 global and local knowledge nodes failed to save the swarm indicates
 that this result is reliable.
 
@@ -113,7 +116,7 @@ swarm in jeopardy of failing.
 
 The overhead for this protocol is much lower than the previous gossip
 system because each node will only send a single message to its peers
-each round, so the total number of messages per 10 seconds is PxN. Therefore,
+each round, so the total number of messages per 10 seconds is PxN (where P is the number of peers). Therefore,
 this protocol is a low-overhead mechanism for allowing seeders to know when it is safe
 to leave. One could imagine a GUI for a BitTorrent client could have an indicator widget
 to alert the end user for the seeder node if WAIT messages are being received or not. As
