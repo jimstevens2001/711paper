@@ -11,7 +11,17 @@ implement was super-seeding, which we felt would not change our overall
 results. We would like to investigate running swarm simulations with
 more realistic features though such as a realistic churn rate and a more
 diverse set of downloaders using a real distribution of common BitTorrent
-download rates.
+download rates. In addition, while the current ``unhealthy'' swarm test is
+effective, a more realistic test might be to just have the swarm's only
+seed suddenly drop after some specified time. This seems even more likely to
+occur in real work situations. A swarm with our gossip protocol would have
+replicated all of the critical pieces so the swarm should survive the loss of
+the seed and continue to completetion. Conversely, swarms relying on local 
+knowledge only would almost certainly die in this situation. Finally, the
+relatively small number of test swarms that were simulated in our current
+results detracts somewhat from their realism. In the future, we would like
+to run some addition test swarms to futher strengthen the support for our
+findings.
 
 We were originally interested in implementing gossip in the Vuze BitTorrent client
 and running a simulation in PlanetLab. We decided against that because our simulator
