@@ -5,7 +5,7 @@
 The goal of the gossip protocol is to extend the lifetime of the swarm
 by providing nodes with the knowledge they require in order to make
 next piece selections that will efficiently replicate the critically
-rare pieces in the swarm. To acoomplish this the gossip protocol
+rare pieces in the swarm. To accomplish this the gossip protocol
 provides each node with a close approximation of omniscient knowledge
 about the current state of the swarm. As we saw in Section 4.3
 omniscient knowledge allows nodes to make the most intelligent
@@ -27,12 +27,12 @@ part of the required information for omniscient nodes. Then the node
 adds one to the count for every piece that it is requesting from its
 peers this exchange round. This constitutes the second part of the
 required information for omniscient nodes. From these counts the node
-is able to form a list of the pieces ordered according to rarity,
-pieces with the lowest count are rarist. It then sends the top 3 rare
+is able to form a list of the pieces ordered according to rarity.
+Pieces with the lowest count are rarist. It then sends the top 3 rare
 pieces to all of its peers in a gossip message with its node id. To
 prevent old messages from recirculating throughout the swarm, a
 timestamp is also added to the message. Recieving peers will maintain
-counts of messages recieved from a particular nodes, if that value is
+counts of messages recieved from a particular node, if that value is
 greater than the message's timestamp then the message is discarded.
 
 At the other side of the message transmission, the recieving node
@@ -44,7 +44,7 @@ sought first when the node goes to request pieces for this exchange
 round. In this way, nodes efficiently replicate critically rare pieces
 thereby extending the lifetime of the swarm. 
 
-In order to provide a information on the entire swarm to every node,
+In order to provide information on the entire swarm to every node,
 messages are forwarded by a node to all of its peers (except the peer
 that sent it). In this way gossip messages are communicated throughout
 the entire swarm. As a result of this forwarding the overhead of the
@@ -58,7 +58,7 @@ swarm like the ones we used to test the effectivenes of local, global
 and omniscient knowledge. The gossip swarm results are presented in
 Table \ref{tab:noseedresults}. From these results we can clearly see that the gossip
 protocol replicates the critically rare pieces much more efficiently
-than local and global knowledge do. This allows it significantly extend the
+than local and global knowledge do. This allows it to significantly extend the
 lifetimes of three of the five test swarms. The gossip protocol does
 not currently achieve efficiency on the level of the ideal omniscient
 nodes however there is still a great deal of room for improvement
