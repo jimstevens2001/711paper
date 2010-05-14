@@ -1,3 +1,32 @@
 \section{Future Work}
 
-Describe future work here.
+There are three main areas of future work for this project: adding realism 
+to the simulation, deploying the gossip protocol in a BitTorrent client,
+and exploring further uses for a low-overhead gossip protocol. 
+
+Currently, our simulation implements all of the core features of
+BitTorrent necessary to study the utility of global knowledge and
+gossip. The only feature that might affect performance that we did not
+implement was super-seeding, which we felt would not change our overall
+results. We would like to investigate running swarm simulations with
+more realistic features though such as a realistic churn rate and a more
+diverse set of downloaders using a real distribution of common BitTorrent
+download rates.
+
+We were originally interested in implementing gossip in the Vuze BitTorrent client
+and running a simulation in PlanetLab. We decided against that because our simulator
+gives easy access to global knowledge to evaluate the upper bound of performance improvement
+(which turned out to be very important to our results). Now that we have found a practical
+application of gossip in saving unhealthy swarms, we would like to go back and implement
+the protocol in a real BitTorrent client and see how this does with real swarms.
+
+
+Bram Cohen's original BitTorrent paper said that global knowledge is too expensive to acquire,
+but we have shown that we can acquire a reasonable approximation of global knowledge
+for certain types of knowledge in BitTorrent. Therefore, we would like to investigate
+further appliations of improved global knowledge in BitTorrent. We are particularly interested in 
+finding misbehaving nodes (e.g. identifying BitThief clients by gossiping about optimistic unchokes)
+or other ways to improve performance (e.g. gossiping about the download rates achieved by nodes).
+One complicating factor is that many possible uses of gossip also create interesting incentives
+that need to be analyzed.
+

@@ -15,11 +15,11 @@ of copies of each block in the file.
 
 However, despite their popularity among users, these torrents often have
 very limited lifetimes. A common pattern is for a node to download a file
-and then exit when finished (although users are encouraged to upload at
+and then exit when finished (although BitTorrent etiquette encourages users to upload at
 least as much as they download). This problem is even worse for torrents
 with less popular data. A particularly common problem is that when a file
 is almost complete, the last few blocks are unavailable. Previous work
-has claimed that the rarest-first algorithm does good enough compared to
+claims that the rarest-first algorithm does good enough compared to
 more complex alternatives such as source coding \cite{legout:1}. However,
 the proliferation of requests for "re-seeding" on the Internet provide
 evidence that additional work may be necessary to reduce the last block
@@ -30,25 +30,25 @@ this can make the torrent's performance worse and possibly shorten the
 lifetime of the torrent when the torrent could otherwise recover.
 
 
-Our work to address the last block problem proceeded in a series of stages
-that first established the validity of our hypothesis and then evaluated
+Our work to address the last block problem proceeds in a series of stages
+that first establishes the validity of our hypothesis and then evaluate
 the effectiveness of our solution. The initial challenge was to determine
 to what degree the last block problem exists. Furthermore,  it was also
 necessary to confirm that the lack of global knowledge at each node was
 responsible at least in part for the loss of important blocks. After our
 hypothesis regarding the cause of the last block problem was validated,
-the next step was to determine if gossip could be used to effectively
+the next step was to determine if gossip can effectively
 remedy the situation. To accomplish this we first had to characterize
 the types of real-world swarms that typically suffer from the last block
-problem. Finally, we used that knowledge to communicate information on
-the swarm via gossip to show that gossip could be used to reduce the
+problem. Finally, we use that knowledge to communicate information on
+the swarm via gossip to show that gossip can reduce the
 occurrence of the last block problem.
 
 
-In order to determine to what degree the problem exists we created a
+In order to determine to what degree the problem exists we create a
 BitTorrent protocol simulator to record the local view of nodes over
-time. This data was then analyzed to compute the global view of rarest
-blocks. We analyzed two types of torrent swarms: swarms with seeders and
+time. We then analyze the data to compute the global view of rarest
+blocks. We study two types of torrent swarms: swarms with seeders and
 swarms that have lost their seeders (but still have a complete copy of
 the file distributed within the swarm). For the swarms with seeders,
 we found that even a perfect global view does not make a significant
@@ -56,13 +56,13 @@ difference in terms of average download time for the nodes. For swarms
 without seeders, we found that the rarest block is not necessarily
 known throughout the entire torrent and that sometimes this lack of
 knowledge leads to inappropriate next block selection which causes
-important blocks to be lost as completed nodes leave. To address the
-inadequacy of the local view, we implemented a gossip protocol to
-construct an improved global view of the swarm at each peer.  The next
-piece selection routine was then modified to leverage the information
+important blocks to be lost as completed nodes leave. To address
+the inadequacy of the local view, we implement a gossip protocol to
+construct an improved global view of the swarm at each peer.  We then
+modify the next piece selection routine to leverage the information
 about the globally rarest blocks to request the blocks most in need of
-replication from its neighbors. The effectiveness of this approach was
-then verified by running a series of simulations that approximated a
+replication from its neighbors. We verified the effectiveness of this approach 
+by running a series of simulations that approximate a
 range of swarms. We also analyze the gossip protocol's overhead to show
 that gossip is practical in terms of network usage and node storage.
 
