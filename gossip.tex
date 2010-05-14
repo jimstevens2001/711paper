@@ -2,7 +2,54 @@
 
 \subsection{Design}
 
-Describe gossip protocol here.
+The goal of the gossip protocol is to extend the lifetime of the swarm
+by providing nodes with the knowledge they require in order to make
+next piece selections that will efficiently replicate the critically
+rare pieces in the swarm. To acoomplish this the gossip protocol
+provides each node with a close approximation of omniscient knowledge
+about the current state of the swarm. As we saw in Section 4.3
+omniscient knowledge allows nodes to make the most intelligent
+decision about which piece to download next. 
+
+To create this approximate omnisient knowledge two things have to be
+communicated between the nodes in the swarm. First, every node needs
+to know each node's local view of the swarm in terms of the pieces
+that it and its neighbors hold. This allows the node to determine
+accurately which pieces are truely rare in the swarm as a whole. Second, every
+node needs to know what each node is planning on downloading
+next. This is needed so that a node will not request the same piece as
+its neighbors thereby losing an opportunity to replicate a rare
+piece. To communicate this information short gossip messages are
+formed by each node every exchange round and sent to all of that
+node's peers. To form this message, the peer determines how many of
+its peers hold each piece in the torrent. This constitues the first
+part of the required information for omniscient nodes. Then the node
+adds one to the count for every piece that it is requesting from its
+peers this exchange round. This constitutes the second part of the
+required information for omniscient nodes. From these counts the node
+is able to form a list of the pieces ordered according to rarity,
+pieces with the lowest count are rarist. It then sends the top 3 rare
+pieces to all of its peers in a gossip message with its node id. To
+prevent old messages from recirculating throughout the swarm, a
+timestamp is also added to the message. Recieving peers will maintain
+counts of messages recieved from a particular nodes, if that value is
+greater than the message's timestamp then the message is discarded.
+
+At the other side of the message transmission, the recieving node
+accumulates all of the gossip messages from its peers and goes
+through these messages during its exchange round. Using the lists of
+rarest pieces from each message, the node builds a list of globally
+rarest pieces. Pieces that are reported as rare by the most nodes are
+sought first when the node goes to request pieces for this exchange
+round. In this way, nodes efficiently replicate critically rare pieces
+thereby extending the lifetime of the swarm. 
+
+In order to provide a information on the entire swarm to every node,
+messages are forwarded by a node to all of its peers (except the peer
+that sent it). In this way gossip messages are communicated throughout
+the entire swarm. As a result of this forwarding the overhead of the
+gossip protocol each round is roughly N^2*S where N is the number of
+nodes in the swarm and S is the size of the gossip messages.
 
 \subsection{Gossip Results}
 
