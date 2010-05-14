@@ -1,7 +1,7 @@
 \section{Simulation Design}
 
 The basic design of our simulation is a discrete event simulation
-that models the arrivial, departure, and interactions of nodes in a
+that models the arrival, departure, and interactions of nodes in a
 BitTorrent swarm. The two main entities in the simulation are nodes
 and events. A node represents a single user in a BitTorrent swarm.
 An event object represents an action that occurs at a specific time.
@@ -14,7 +14,7 @@ any event handler or other node. This simulates the BitTorrent tracker
 for the swarm and is how nodes initially connect with each other. Each
 node contains the state specific to that node, such as the download
 progress, the subset of the overall nodes that the node has currently
-peered with (meaining it may trade pieces with that peer), and various
+peered with (meaning it may trade pieces with that peer), and various
 other information. The node objects do not emulate everything that takes
 place in a normal BitTorrent node, but merely attempt to model at a
 level of detail great enough to understand how BitTorrent swarms spread
@@ -42,7 +42,7 @@ that occurs every 10 seconds in a BitTorrent swarm. The first thing the
 handler does is make sure the node has enough peers. The unchoke algorithm
 then executes next. First, the unchoke algorithm takes the current down
 set (or the current up set if the node is a seeder) and sorts based on
-the speed of each connection.  It will pick the top four of the up to
+the speed of each connection.  It will pick the top four of the 
 five unchoked nodes to remain unchoked. If the optimistic unchoke node
 was selected as one of the top four or if the optimistic unchoke node
 has expired (which occurs after 30 seconds) or has become uninterested
@@ -59,7 +59,7 @@ up/down sets until the available bandwidth is allocated. If a piece
 will finish before the next EXCHANGE\_ROUND event, then a FINISH\_PIECE
 event is scheduled. Last, the next EXCHANGE\_ROUND event is scheduled.
 The FINISH\_PIECE event simulates when a piece upload completes between
-peers and allows the next piece upload to commence. The LOG event is
+peers and allows the next piece upload to commence. Finally, the LOG event is
 used to monitor the state of the simulation and collect results.
 
 The complete implementation, written in Python, of our simulator can be found in our GitHub repository \cite{github}.
