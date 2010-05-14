@@ -3,21 +3,30 @@
 \subsection{Experimental Setup}
 
 In this section, we will study two types of swarms and compare the
-performance of each when using local knowledge or global knowledge for
-the rarest piece selection algorithm. The goal of this section is to
-explore the potential for a gossip algorithm to improve BitTorrent.
-The first type is a swarm that starts with a single seed and a number
-of leechers.  The seed is altruistic and therefore will stay the entire
-time. This simulates a ``healthy'' swarm that will not die, but may benefit
-from better replication of pieces. The second type is a swarm with no
-seeders, although a complete copy of the file exists within the swarm
-between a few nodes. This simulates a situation in which the seeders
-have left and a swarm is in an ``unhealthy'' state. None of the nodes
-are altruistic and therefore leave as soon as possible. For this swarm,
+performance of each when using local knowledge, global knowledge or 
+omniscience for the rarest piece selection algorithm. The difference
+between global knowledge and omnisience is that nodes with global
+knowledge know which pieces every node in the swarm has but they do
+no not know which pieces those nodes are currently
+requesting. Omniscient nodes know both what every peer is requesting
+and what they have. This allows for very efficient next piece
+selection but is impossible without some form of gossip since requests
+are only sent to one node whereas have messages are sent to all of a
+node's peers. The goal of this section is to explore the potential for
+a gossip algorithm to improve BitTorrent. The first set of simulations
+use swarms that start with a single seed and a number of leechers.
+The seed is altruistic and therefore will stay the entire time. This 
+simulates a ``healthy'' swarm that will not die, but may benefit from 
+better replication of pieces. The second type is a swarm with no seeders, 
+although a complete copy of the file exists within the swarm between a
+few nodes. This simulates a situation in which the seeders have left
+and a swarm is in an ``unhealthy'' state. None of the nodes are
+altruistic and therefore leave as soon as possible. For this swarm,
 there are two goals. The primary goal is to simply make sure the swarm
 survives, because it is possible for a node to leave with pieces that
 only it holds, which means no other node can complete. The second goal
-is, if the swarm survives, can global knowledge improve performance.
+is, if the swarm survives, can global knowledge or omniscience improve 
+performance.
 
 For all of the experiments below, we are assuming the swarm is sharing a
 40 MB file divided into 1000 pieces. All leechers have a download rate
@@ -26,11 +35,13 @@ approximately what a DSL user can achieve in a typical swarm. Finally, all
 leechers will join at a random time in the first 100 seconds of the swarm.
 
 The measurements taken for each experiment are simply the download times for
-each node in the swarm. We considered other methods such as metrics to
-evaluate local vs. global knowledge, such as a distance metric comparing the 
-list of pieces sorted by rarity within the peer set vs. rarity globally, but
-decided that such metrics were fairly artibtrary and the node download times
-tell us what we actually care about: will global knowledge improve a swarm's
+each node in the swarm if the swarms survives to completion or the
+number of nodes that are stranded if the swarm dies. We considered
+other methods such as metrics to evaluate local vs. global knowledge,
+such as a distance metric comparing the list of pieces sorted by
+rarity within the peer set vs. rarity globally, but decided that such
+metrics were fairly artibtrary and the node download times tell us
+what we actually care about: will global knowledge improve a swarm's
 performance?
 
 \subsection{Swarms with Seeders}
@@ -95,25 +106,68 @@ finding each other and making replicas faster.
 
 \subsection{Swarms with No Seeders}
 
-The primariy goal of this research, however, was not to improve performance in
-healthy swarms but to prevent the death of unhealthy swarms. The existence of the
-99\% problem seems to indicate that it is a common occurance in the real world for
-a seed or a set of peers to leave abruptly and strand the swarm with no copies of certain
-pieces. In these situations it might have been possible for the swarm to survive if the nodes
-in that swarm had efficiently duplicated every piece at least once in the swarm. To determine
-how effective the existing local knowledge implementation of BitTorrent was as dealing with
-this situation we created a special swarm with no seed. Instead the a single copy of each piece
-was spread between four nodes which would leave promptly upon completing the entire file. This
-created the situation where the swarm had to create copies of all of the critical pieces 
-before any of the four critical nodes left the swarm. This kind of swarm also resembles a
-swarm that has experienced flash crowd behavior where a large number of nodes joined completed
-the file and then left. The four nodes that start this simulation would then be the remainder of
-that initial flash crowd while the new nodes joining would represent the steady stream of nodes
-that often join after a flash crowd. For more information on this behavior in torrents, please
-see ``The Bittorrent P2P File-Sharing System: Measurements and Analysis'' (**CITE HERE**). 
+The primariy goal of this research, however, was not to improve
+performance in healthy swarms but to prevent the death of unhealthy
+swarms. To determine how effective the existing local knowledge
+implementation of BitTorrent was as dealing with this situation we
+created a special swarm with no seed. Instead the a single copy of
+each piece was spread between four nodes which would leave promptly
+upon completing the entire file. This created the situation where the
+swarm had to create copies of all of the critical pieces before any of
+the four critical nodes left the swarm. This kind of swarm also
+resembles a swarm that has experienced flash crowd behavior where a
+large number of nodes joined completed the file and then left. The
+four nodes that start this simulation would then be the remainder of
+that initial flash crowd while the new nodes joining would represent
+the steady stream of nodes that often join after a flash crowd. For
+more information on this behavior in torrents, please see 
+``The Bittorrent  P2P File-Sharing System: Measurements and Analysis''
+(**CITE HERE**). 
 
-Using this ``unheatly'' swarm simulation setup we then ran the simulation five times for the 
-following levels of node knowledge: local knowledge, global knowledge and omniscience. 
+Using this ``unheatly'' swarm simulation setup we then ran the
+simulation five times for the three levels of node knowledge discussed
+in section 4.1: local knowledge, global knowledge and
+omniscience. Five runs were performed for each level of knowledge
+because the probibalistic distribution of pieces and upload/download
+rates sometimes produced swarms that could not fail or swarms that
+could not be saved. This can be seen in the failure that occured even
+with omniscient nodes. Swarms which survived finished the simulation
+with a single node remaining. Among those swarms which did not survive
+the degree of piece replication efficiency can be seen in how many
+nodes were stranded. The swarms with fewer peers remaining managed to
+replicate the pieces more efficiently and thereby extended the
+lifetime of the torrent. The results from all five runs for each type
+of node knowledge are presented in Table X.
 
+%variables global, local or omniscient knowledge
+%Table
+%    Runs       | 1 | 2 | 3 | 4 | 5 | 1  | 2  | 3  | 4  | 5  |
+%Knowledge Type |  nodes stranded   |     average times      |
+%    local      | 99|  2| 99| 99| 99|1387|2540|1710|2019|1433|
+%    global     | 99| 99| 99| 99| 46|1850|1464|1369|1535|2391|
+%    omniscient |  1|  2|  2| 99|  2|1711|2370|1646|1465|2386|
+
+%Knowledge Type | average nodes stranded  |   average time   |
+%    local      |          80             |        1818      |
+%    global     |          88             |        1727      |
+%    omniscient |          21             |        1916      |
+
+
+From the results in Table X we can see that omniscient node knowledge
+represents a optimal maximum for the efficiency of piece
+replication. Interestingly global knowledge performed worse than local
+knowledge in terms of efficient piece replication. This is because the
+global view of the swarms causes the node with global knowledge to all
+download the same piece from the critical nodes so many copies are
+created of one critically rare piece while other critically rare
+pieces aren't copied at all. The local knowledge nodes were therefore
+more efficient because their notion of the rarest piece was more
+diverse. This lead them to replicate different pieces and achieve more
+efficeint replication overall. The primary conclusion to be drawn from
+these results is, therefore, that while local knowledge can
+occationally save a swarm, a more intelligent piece replication scheme
+would be more effective. This opens the door for BitTorrent gossip to
+achieve real gains over the traditional implementation by extending
+the lifetime of the torrent in extreme situations.
 
 Describe the NO\_SEED test and give results.
