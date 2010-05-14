@@ -21,7 +21,7 @@ with less popular data. A particularly common problem is that when a file
 is almost complete, the last few blocks are unavailable. Previous work
 claims that the rarest-first algorithm does good enough compared to
 more complex alternatives such as source coding \cite{legout:1}. However,
-the proliferation of requests for "re-seeding" on the Internet provide
+the proliferation of requests for ``re-seeding'' on the Internet provide
 evidence that additional work may be necessary to reduce the last block
 problem. We are particularly interested in torrents that have lost
 their seeds, resulting in local views of rarest blocks not accurately
@@ -30,19 +30,19 @@ this can make the torrent's performance worse and possibly shorten the
 lifetime of the torrent when the torrent could otherwise recover.
 
 
-Our work to address the last block problem proceeds in a series of stages
-that first establishes the validity of our hypothesis and then evaluate
-the effectiveness of our solution. The initial challenge was to determine
-to what degree the last block problem exists. Furthermore,  it was also
-necessary to confirm that the lack of global knowledge at each node was
-responsible at least in part for the loss of important blocks. After our
-hypothesis regarding the cause of the last block problem was validated,
-the next step was to determine if gossip can effectively
-remedy the situation. To accomplish this we first had to characterize
-the types of real-world swarms that typically suffer from the last block
-problem. Finally, we use that knowledge to communicate information on
-the swarm via gossip to show that gossip can reduce the
-occurrence of the last block problem.
+%Our work to address the last block problem proceeds in a series of stages
+%that first establishes the validity of our hypothesis and then evaluate
+%the effectiveness of our solution. The initial challenge was to determine
+%to what degree the last block problem exists. Furthermore,  it was also
+%necessary to confirm that the lack of global knowledge at each node was
+%responsible at least in part for the loss of important blocks. After our
+%hypothesis regarding the cause of the last block problem was validated,
+%the next step was to determine if gossip can effectively
+%remedy the situation. To accomplish this we first had to characterize
+%the types of real-world swarms that typically suffer from the last block
+%problem. Finally, we use that knowledge to communicate information on
+%the swarm via gossip to show that gossip can reduce the
+%occurrence of the last block problem.
 
 
 In order to determine to what degree the problem exists we create a
